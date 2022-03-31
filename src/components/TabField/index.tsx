@@ -1,9 +1,13 @@
 import { Col, Row } from 'antd'
-import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { getCategories } from '../../fake-api'
 import { pinyin } from 'pinyin-pro'
-import PubSub from 'pubsub-js'
+
+import { connect } from 'react-redux'
+import { changeField, changeFieldOption } from '../../redux/actions/tabField'
+import store from '../../redux/store'
+import { useEffect } from 'react'
+
 const style = require('./index.module.less').default
 
 interface ListObj {
@@ -12,24 +16,33 @@ interface ListObj {
 }
 
 
-async function getCate(setField: Function) {
+async function getCate(changeField: Function) {
     let k = await getCategories()
-    setField(k.data.categories)
-    PubSub.publish('categoryData', {
+    changeField({
         field: k.data.categories
     })
+    console.log(k.data.categories, 'tabField 调用()')
+}
+
+interface Iprops{
+    field: any,
+    fieldOption: number,
+    changeField: Function
+    changeFieldOption: Function
 }
 
 
-export default function TabField() {
-    const [field, setField] = useState([])
-    getCate(setField)
-    
+function TabField(props: Iprops) {
+    let { field, changeField, changeFieldOption } = props
+    useEffect(()=>{
+        getCate(changeField)
+    },[changeField])
+
     return (
         <div className={style.field}>
             <Row justify='space-around'>
                 {
-                    field.map((fieldObj: ListObj) => {
+                    field.map((fieldObj: ListObj, index:number) => {
                         return (
                             <Col key={fieldObj.category_id} span={24 / field.length}>
                                 <NavLink 
@@ -37,10 +50,10 @@ export default function TabField() {
                                     to={pinyin(fieldObj.category_name, {
                                         toneType: 'none'
                                     }).replace(/\s/g,'')}
+                                    onClick={() => changeFieldOption({fieldOption: index})}
                                 >
                                     {fieldObj.category_name}
                                 </NavLink>
-                                {/* <a href="#" className={style.fieldLink}>{fieldObj.name}</a> */}
                             </Col>
                         )
                     })
@@ -49,3 +62,16 @@ export default function TabField() {
         </div>
     )
 }
+
+type RootState = ReturnType<typeof store.getState>
+
+export default connect(
+    (state: RootState) => ({
+        fieldOption: state.tabField.fieldOption,
+        field: state.tabField.field
+    }),
+    {
+        changeField: changeField,
+        changeFieldOption: changeFieldOption
+    }
+)(TabField)

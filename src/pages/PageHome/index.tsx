@@ -7,13 +7,14 @@ import TabType from '../../components/TabType'
 const style = require('./index.module.less').default
 
 export default function PageHome() {
+  console.log('HomePage 调用render');
+  
   return (
     <div>
         <Header></Header>
         <TabField></TabField>
         <Row className={style.divide}></Row>
         <TabTech/>
-        {/* <Outlet></Outlet> */}
         <List></List>
 
         <TabType></TabType>

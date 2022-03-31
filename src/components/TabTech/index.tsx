@@ -1,21 +1,16 @@
-import { Col, Divider, Row } from 'antd'
+import { Col, Row } from 'antd'
 import { pinyin } from 'pinyin-pro'
-import { useState } from 'react'
+import { connect } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
+import { changeTech } from '../../redux/actions/tabTech'
+import store from '../../redux/store'
 const style = require('./index.module.less').default
-
-function getCate(setField :Function){
-    PubSub.subscribe('categoryData', (msg, stateObj) => {
-        setField(stateObj.field)
-    })
-}
 
 function toPinyin(s: string) {
     return pinyin(s, {
         toneType: 'none'
-    }).replace(/\s/g,'')
+    }).replace(/\s/g, '')
 }
-
 
 interface ListObj {
     category_id: number,
@@ -23,26 +18,45 @@ interface ListObj {
     children: Array<ListObj>
 }
 
-export default function TabTech() {
-    const [field, setField] = useState<Array<ListObj>>([])
-    getCate(setField)
-    
+interface Iprops {
+    fieldOption: number
+    field: Array<ListObj>
+    changeTech: Function
+}
+
+function TabTech(props: Iprops) {
+
     const fieldOption = useParams()['*']?.split('/')[0]
-    const f = fieldOption
-    for (let i=0; i<field.length; i++){
-        if (fieldOption ===  toPinyin(field[i].category_name)) {
-            setField(field[i].children)
+    let field = props.field
+    for (let i = 0; i < field.length; i++) {
+        if (fieldOption === toPinyin(field[i].category_name)) {
+            field = field[i].children
+            break
         }
     }
-    
+
+    if (field === undefined) {
+        field = [{
+            category_id: 0,
+            category_name: '推荐',
+            children: []
+        }]
+    }
+
     return (
         <div className={style.tech}>
             <Row justify='start' align="middle" className={style.Row}>
                 {
-                    field.map((fieldObj) => {
+                    field.map((fieldObj,index) => {
                         return (
-                            <Col key={fieldObj.category_id} span={4}>
-                                <NavLink to={f + '/' + toPinyin(fieldObj.category_name)} className={style.techLink}>{fieldObj.category_name}</NavLink>
+                            <Col key={fieldObj.category_id} span={6}>
+                                <NavLink 
+                                    to={fieldOption + '/' + toPinyin(fieldObj.category_name)} 
+                                    className={style.techLink}
+                                    onClick={() => {props.changeTech({techOption: index})}}
+                                >
+                                    {fieldObj.category_name}
+                                </NavLink>
                             </Col>
                         )
                     })
@@ -51,3 +65,16 @@ export default function TabTech() {
         </div>
     )
 }
+
+
+type RootState = ReturnType<typeof store.getState>
+
+export default connect(
+    (state: RootState) => ({
+        fieldOption: state.tabField.fieldOption,
+        field: state.tabField.field
+    }),
+    {
+        changeTech: changeTech
+    }
+)(TabTech)
