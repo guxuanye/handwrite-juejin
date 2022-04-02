@@ -12,7 +12,7 @@ const initState:ItabTech = {
 export default function tabTechReducer(preState = initState, action: tabTechActionType): ItabTech {
     const { type, data} = action
     switch (type) {
-        case CHANGETECH:
+        case CHANGETECH:  
             return data
         default:
             return preState

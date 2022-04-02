@@ -7,8 +7,8 @@ import { getArticles } from '../../fake-api'
 const style = require('./index.module.less').default
 
 interface Iprops {
-    fieldOption:number,
-    techOption:number
+    fieldOption: number,
+    techOption: number
 }
 // interface Ilist {
 
@@ -18,28 +18,48 @@ interface Iprops {
 
 function List(props: Iprops) {
     const [list, setList] = useState<any>([])
-    console.log(props,'props');
-    let {fieldOption, techOption} = props
-    if (fieldOption === -1) {
-        fieldOption = 0;
-    } else {
-        if (techOption === -1) {
-            techOption = 0;
-        } else {
-            fieldOption = fieldOption*10 + techOption
-        }
+    let { fieldOption, techOption } = props
+    fieldOption = techOption === 0 ? fieldOption : fieldOption * 10 + techOption
+
+    const getMore = (listLength: number, fieldOption: number) => {
+        console.log(listLength, 'getMore', fieldOption);
+
+        let p = getArticles(fieldOption, 'hot', listLength, 10)
+        p.then(res => {
+            setList([...list, ...res.data.articles])
+        })
     }
-    
-    useEffect(()=>{
-        var p = getArticles(fieldOption)
-        p.then(response => setList(response.data.articles))
-    },[fieldOption])
-    console.log(list);
-    
-    
+
+    window.addEventListener('scroll', (event) => {
+        const f = (fieldOption:number) => {
+            const { scrollTop, clientHeight, scrollHeight } = document.documentElement
+            if (scrollTop + clientHeight + 1 > scrollHeight &&
+                scrollTop + clientHeight - 1 < scrollHeight) {
+                console.log('无限滚动', fieldOption);
+                console.log(scrollTop + clientHeight-scrollHeight);
+                
+
+                // getMore(list.length, fieldOption)
+            }
+        }
+        f(fieldOption)
+    }
+    )
+
+    useEffect(() => {
+        console.log('useEffect');
+
+        let p
+        p = getArticles(fieldOption)
+        p.then(response => {
+            console.log(fieldOption, response)
+            setList(response.data.articles)
+        })
+    }, [fieldOption])
+
+
     return (
         <div className={style.list}>
-            <div>{props.fieldOption+ ' ' + props.techOption}</div>
             {
                 list.map((listObj: any) => {
                     return <Article {...listObj} key={listObj.article_id}></Article>
@@ -54,11 +74,11 @@ type RootState = ReturnType<typeof store.getState>
 export default connect(
     (state: RootState) => {
         return {
-            fieldOption:state.tabField.fieldOption,
-            techOption:state.tabTech.techOption
+            fieldOption: state.tabField.fieldOption,
+            techOption: state.tabTech.techOption
         }
     },
     {
-        
+
     }
 )(List)

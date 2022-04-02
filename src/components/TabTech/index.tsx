@@ -38,7 +38,7 @@ function TabTech(props: Iprops) {
     if (field === undefined) {
         field = [{
             category_id: 0,
-            category_name: '推荐',
+            category_name: '',
             children: []
         }]
     }
@@ -48,12 +48,13 @@ function TabTech(props: Iprops) {
             <Row justify='start' align="middle" className={style.Row}>
                 {
                     field.map((fieldObj,index) => {
+                        const sp = ((fieldObj.category_name.length*2/3).toFixed())
                         return (
-                            <Col key={fieldObj.category_id} span={6}>
+                            <Col key={fieldObj.category_id} span={sp}>
                                 <NavLink 
                                     to={fieldOption + '/' + toPinyin(fieldObj.category_name)} 
                                     className={style.techLink}
-                                    onClick={() => {props.changeTech({techOption: index})}}
+                                    onClick={() => {props.changeTech({techOption: index+1})}}
                                 >
                                     {fieldObj.category_name}
                                 </NavLink>

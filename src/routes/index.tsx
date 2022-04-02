@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom"
+import PageArticle from "../pages/PageArticle"
 import PageHome from "../pages/PageHome"
 
 const a = [
@@ -15,6 +16,16 @@ const a = [
                         element: <div />
                     }
                 ]
+            }
+        ]
+    },
+    {
+        path: '/post',
+        element: <PageArticle />,
+        children: [
+            {
+                path: '*',
+                element: <div></div>
             }
         ]
     },

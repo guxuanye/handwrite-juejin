@@ -5,6 +5,7 @@ import { pinyin } from 'pinyin-pro'
 
 import { connect } from 'react-redux'
 import { changeField, changeFieldOption } from '../../redux/actions/tabField'
+import { changeTech } from '../../redux/actions/tabTech'
 import store from '../../redux/store'
 import { useEffect } from 'react'
 
@@ -21,7 +22,6 @@ async function getCate(changeField: Function) {
     changeField({
         field: k.data.categories
     })
-    console.log(k.data.categories, 'tabField 调用()')
 }
 
 interface Iprops{
@@ -29,11 +29,12 @@ interface Iprops{
     fieldOption: number,
     changeField: Function
     changeFieldOption: Function
+    changeTech: Function
 }
 
 
 function TabField(props: Iprops) {
-    let { field, changeField, changeFieldOption } = props
+    let { field, changeField, changeFieldOption, changeTech } = props
     useEffect(()=>{
         getCate(changeField)
     },[changeField])
@@ -50,7 +51,10 @@ function TabField(props: Iprops) {
                                     to={pinyin(fieldObj.category_name, {
                                         toneType: 'none'
                                     }).replace(/\s/g,'')}
-                                    onClick={() => changeFieldOption({fieldOption: index})}
+                                    onClick={() => {
+                                        changeFieldOption({fieldOption: index})
+                                        changeTech({techOption: 0})
+                                    }}
                                 >
                                     {fieldObj.category_name}
                                 </NavLink>
@@ -72,6 +76,7 @@ export default connect(
     }),
     {
         changeField: changeField,
-        changeFieldOption: changeFieldOption
+        changeFieldOption: changeFieldOption,
+        changeTech: changeTech
     }
 )(TabField)

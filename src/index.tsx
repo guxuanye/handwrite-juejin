@@ -7,8 +7,11 @@ import App from './App'
 
 import { getCommentsByArticleId, getArticleById, getCategories, getArticles} from './fake-api/index'
 
-// console.log(getArticleById("6987589727289344036"));
-console.log(getArticles());
+// console.log(getCommentsByArticleId("698758972728934"),'test');
+// console.log(getArticles(0, 'hot', 0, 10));
+// console.log(getArticles(0, 'hot', 20, 10));
+console.log(getArticles(13));
+
 
 ReactDOM.render(
     <BrowserRouter>

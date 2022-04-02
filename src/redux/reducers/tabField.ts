@@ -20,7 +20,6 @@ const initState = {
 
 export default function tabFieldReducer(preState = initState, action: tabFieldActionType):ItabField {
     const { type, data } = action
-
     switch (type) {
         case CHANGEFIELDOPTION:
             return {

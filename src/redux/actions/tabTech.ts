@@ -10,6 +10,8 @@ interface Idata {
 }
 
 export const changeTech = (data: Idata):tabTechActionType => {
+    console.log(data, 'changeTech');
+    
     return {
         type: CHANGETECH,
         data
