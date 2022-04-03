@@ -52,6 +52,7 @@ function TabField(props: Iprops) {
                                         toneType: 'none'
                                     }).replace(/\s/g,'')}
                                     onClick={() => {
+                                        window.scrollTo(0,0)
                                         changeFieldOption({fieldOption: index})
                                         changeTech({techOption: 0})
                                     }}

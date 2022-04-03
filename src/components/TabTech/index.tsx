@@ -54,7 +54,10 @@ function TabTech(props: Iprops) {
                                 <NavLink 
                                     to={fieldOption + '/' + toPinyin(fieldObj.category_name)} 
                                     className={style.techLink}
-                                    onClick={() => {props.changeTech({techOption: index+1})}}
+                                    onClick={() => {
+                                        window.scrollTo(0,0)
+                                        props.changeTech({techOption: index+1})
+                                    }}
                                 >
                                     {fieldObj.category_name}
                                 </NavLink>

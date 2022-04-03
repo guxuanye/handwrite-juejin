@@ -9,9 +9,7 @@ interface Idata {
     techOption: number
 }
 
-export const changeTech = (data: Idata):tabTechActionType => {
-    console.log(data, 'changeTech');
-    
+export const changeTech = (data: Idata):tabTechActionType => {    
     return {
         type: CHANGETECH,
         data
