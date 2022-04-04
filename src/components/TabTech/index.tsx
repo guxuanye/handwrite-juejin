@@ -33,6 +33,11 @@ function TabTech(props: Iprops) {
             field = field[i].children
             break
         }
+        if (i === field.length-1) field = [{
+            category_id: 0,
+            category_name: '',
+            children: []
+        }]
     }
 
     if (field === undefined) {

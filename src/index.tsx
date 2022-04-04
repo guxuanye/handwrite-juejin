@@ -9,8 +9,8 @@ import { getCommentsByArticleId, getArticleById, getCategories, getArticles} fro
 
 // console.log(getCommentsByArticleId("698758972728934"),'test');
 // console.log(getArticles(0, 'hot', 0, 10));
-// console.log(getArticles(0, 'hot', 20, 10));
-console.log(getArticles(13));
+// console.log(getArticles(0,'hot'));
+// console.log(getArticles(0,'new'));
 
 
 ReactDOM.render(

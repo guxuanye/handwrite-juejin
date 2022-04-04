@@ -1,6 +1,6 @@
 import { BellOutlined, MessageOutlined } from '@ant-design/icons';
 import { Col, Row, Input, Button, Divider } from 'antd'
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import NavSM from './components/NavSM'
 const { Search } = Input;
 const style = require('./index.module.less').default
@@ -13,13 +13,13 @@ export default function Header() {
                     <img className={style.icon_large} src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/e08da34488b114bd4c665ba2fa520a31.svg" alt="juejin-icon" />
                 </Col>
                 <Col xs={{ span: 1, offset: 1 }} sm={0}>
-                    <NavLink to='/home'>
+                    <a href='/home'>
                         <img
                             className={style.icon_small}
                             src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/6c61ae65d1c41ae8221a670fa32d05aa.svg"
                             alt="juejin-icon"
                         />
-                    </NavLink>
+                    </a>
 
                 </Col>
                 <Col xs={0} sm={0} md={8} >
