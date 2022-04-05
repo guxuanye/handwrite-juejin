@@ -13,7 +13,7 @@ export default function Header() {
                     <img className={style.icon_large} src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/e08da34488b114bd4c665ba2fa520a31.svg" alt="juejin-icon" />
                 </Col>
                 <Col xs={{ span: 1, offset: 1 }} sm={0}>
-                    <a href='/home'>
+                    <a href='/'>
                         <img
                             className={style.icon_small}
                             src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/6c61ae65d1c41ae8221a670fa32d05aa.svg"

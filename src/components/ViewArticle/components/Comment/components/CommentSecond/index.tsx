@@ -5,11 +5,11 @@ const style = require('./index.module.less').default
 
 export default function CommentSecond(props: any) {
     let [isGood, setIsGood] = useState(0)
-    const { reply_content, ctime } = props.reply_info
+    const { digg_count,reply_content, ctime } = props.reply_info
     const { avatar_large, user_name } = props.user_info
 
     const c = new Date(ctime * 1000)
-    const articleDate = c.toLocaleString().replace(/:\d{1,2}$/, ' ')
+    const articleDate = c.toLocaleString().replace(/\//g,' ').slice(0,15)
 
     return (
         <div className={style.reply}>
@@ -29,9 +29,9 @@ export default function CommentSecond(props: any) {
                         }}
                             onClick={() => { setIsGood(isGood + 1) }}
                         />
-                        <span> 点赞&nbsp;&nbsp;&nbsp; </span>
+                        <span> &nbsp;{digg_count+(isGood%2)}&nbsp;&nbsp;&nbsp; </span>
                         <MessageOutlined />
-                        <span> 回复 </span>
+                        <span> &nbsp;回复 </span>
                     </Row>
                 </Col>
             </Row>

@@ -7,8 +7,6 @@ import TabType from '../../components/TabType'
 const style = require('./index.module.less').default
 
 export default function PageHome() {
-  console.log('HomePage 调用render');
-  
   return (
     <div>
         <Header></Header>

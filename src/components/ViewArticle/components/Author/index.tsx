@@ -17,7 +17,10 @@ export default function Author(props: Iprops) {
         <div className={style.author}>
             <Row align='middle'>
                 <Col span={4}>
-                    <img src={avatar_large} alt="avatar_large" />
+                    <img 
+                        src={avatar_large} 
+                        alt="avatar" 
+                    />
                 </Col>
                 <Col span={14}>
                     <Row className={style.username}>{user_name}</Row>

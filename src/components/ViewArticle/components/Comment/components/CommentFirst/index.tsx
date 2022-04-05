@@ -6,12 +6,12 @@ const style = require('./index.module.less').default
 
 
 export default function CommentFirst(props: any) {
-    let [isGood, setIsGood] = useState(0)
-    const { comment_content, ctime } = props.comment_info
+    const { digg_count,comment_content, ctime, } = props.comment_info
+    let [isGood, setIsGood] = useState(digg_count)
     const { avatar_large, user_name,  } = props.user_info
 
     const c = new Date(ctime * 1000)
-    const articleData = c.toLocaleString().replace(/:\d{1,2}$/,' ')
+    const articleData = c.toLocaleString()
     return (
         <div className={style.commentFirst}>
             <Row>
@@ -32,9 +32,9 @@ export default function CommentFirst(props: any) {
                         }}
                             onClick={()=>{setIsGood(isGood+1)}}
                         />
-                        <span> 点赞&nbsp;&nbsp;&nbsp; </span>
+                        <span> &nbsp;{digg_count+(isGood%2)}&nbsp;&nbsp;&nbsp; </span>
                         <MessageOutlined />
-                        <span> 回复 </span>
+                        <span> &nbsp;回复 </span>
                     </Row>
 
                     {

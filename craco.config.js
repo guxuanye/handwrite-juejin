@@ -18,6 +18,14 @@ module.exports = {
         ],
     },
     webpack: {
+        proxy: {
+            '/': {
+                bypass: function (req, res, proxyOptions) {
+                    console.log('Skipping proxy for browser request.')
+                    return `${/assets/}/index.html`
+                }
+            }
+        }
 
     },
     plugins: [

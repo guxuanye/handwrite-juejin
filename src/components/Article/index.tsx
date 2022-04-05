@@ -1,3 +1,4 @@
+import { EyeOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons'
 import { Col, Divider, Row } from 'antd'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -7,17 +8,17 @@ const getDaysDiffBetweenDates = (dateInitial: any, dateFinal: any) => {
     return (dateFinal - dateInitial) / (1000 * 3600 * 24)
 }
 
-const deal = (day:number) => {
-    if (day<365) return day.toFixed()+'天前'
-    else return (day/30/12).toFixed()+'年前'
+const deal = (day: number) => {
+    if (day < 365) return day.toFixed() + '天前'
+    else return (day / 30 / 12).toFixed() + '年前'
 }
 
-const addHistory = (listObj:any) => {
-    const historyString:string|null = localStorage.getItem('list')
+const addHistory = (listObj: any) => {
+    const historyString: string | null = localStorage.getItem('list')
     let historyList: Array<any> = []
     if (historyString) historyList = JSON.parse(historyString)
     historyList = [listObj, ...historyList]
-    localStorage.setItem('list',JSON.stringify(historyList))
+    localStorage.setItem('list', JSON.stringify(historyList))
 }
 
 export default function Article(props: any) {
@@ -25,7 +26,7 @@ export default function Article(props: any) {
     const [photoSize, setPhotoSize] = useState(7)
 
     const { article_id } = props
-    const { title, brief_content, cover_image, ctime } = props.article_info
+    const { view_count,comment_count, digg_count, title, brief_content, cover_image, ctime } = props.article_info
     const { user_name } = props.author_user_info
 
     let diffTime: any = getDaysDiffBetweenDates(
@@ -88,7 +89,14 @@ export default function Article(props: any) {
                         </Col>
                     </Row>
             }
-
+            <Row className={style.icon} align='middle'>
+                <EyeOutlined />
+                <span> &nbsp;{view_count}&nbsp;&nbsp;&nbsp; </span>
+                <LikeOutlined/>
+                <span> &nbsp;{digg_count}&nbsp;&nbsp;&nbsp; </span>
+                <MessageOutlined />
+                <span> &nbsp;{comment_count} </span>
+            </Row>
         </div>
     )
 }

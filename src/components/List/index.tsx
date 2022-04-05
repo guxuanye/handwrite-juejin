@@ -1,10 +1,11 @@
 import Article from '../Article/index'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import store from '../../redux/store'
 import { useEffect, useRef, useState } from 'react'
 import { getArticles } from '../../fake-api'
 import { nanoid } from 'nanoid'
+import { Button } from 'antd'
 const style = require('./index.module.less').default
 
 interface Iprops {
@@ -13,8 +14,14 @@ interface Iprops {
     typeOption: string
 }
 
+const clearHistory = () => {
+    localStorage.removeItem('list')
+    // window.location.reload()
+}
+
 //list 负责去获取筛选文章，传递文章id
 function List(props: Iprops) {
+    const navigate = useNavigate()
     const ref: any = useRef()
 
     var [list, setList] = useState<any>([])
@@ -57,17 +64,28 @@ function List(props: Iprops) {
             {
                 typeOption !== 'history' ?
                     list.map((listObj: any) => {
-                        return <Article 
-                                    {...listObj} 
-                                    key={nanoid()}
-                                >
-                                </Article>
+                        return <Article
+                            {...listObj}
+                            key={nanoid()}
+                        >
+                        </Article>
                     }) :
 
                     historyString ?
-                        historyList.map((listObj: any) => {
-                            return <Article {...listObj} key={nanoid()}></Article>
-                        })
+                        <div>
+                            <Button 
+                                className={style.btnClear}
+                                onClick={() => {
+                                    clearHistory()
+                                    navigate('')
+                                }}
+                            >
+                                清除浏览记录
+                            </Button>
+                            {historyList.map((listObj: any) => {
+                                return <Article {...listObj} key={nanoid()}></Article>
+                            })}
+                        </div>
                         :
                         <div>当前没有历史记录</div>
 

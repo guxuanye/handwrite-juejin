@@ -29,18 +29,21 @@ export default function ViewArticle() {
             let result = await p
             if (result.data !== undefined) {
                 setArticle(result.data.article)
+                console.log(result.data.article);
+                
             }
             setIsLoading(true)
         }
         fetchData()
     }, [])
-
-    console.log('ViewArticle 被调用了');
     
     return (
         <div className={style.article}>
             <div className={style.title}>{article.article_info.title}</div>
             <Author {...article.author_user_info} {...article.article_info}></Author>
+            <div className={style.cover_image}>
+                <img src={article.article_info.cover_image} alt="cover_image" />
+            </div>
             {
                 !isLoading ?
                     <div>正在加载...</div> :
